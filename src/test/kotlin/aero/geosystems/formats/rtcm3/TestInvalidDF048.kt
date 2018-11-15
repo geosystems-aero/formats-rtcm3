@@ -6,10 +6,12 @@ package aero.geosystems.formats.rtcm3
  */
 
 import aero.geosystems.formats.rtcm3.messages.Rtcm1012
-import org.junit.Test as test
+import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class TestInvalidDF048 {
-	@test fun f() {
+	@Test fun f() {
 
 		// RTCM1012,0,49054000,false,10,false,0;
 		val m1012 = Rtcm1012.allocate(2).also {
