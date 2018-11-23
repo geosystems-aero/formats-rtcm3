@@ -81,6 +81,7 @@ class Rtcm1019(bb: ByteBuffer, offset: Int = 0) : Rtcm3Message(Companion, bb, of
     }
 }
 
+@Deprecated("Convert to eph_t and use its toRinexLikeStrings()")
 fun Rtcm1019.rinexlikeOutput(to: PrintStream) {
 	val toc_s = toc % 60
 	val toc_m = (toc / 60) % 60
