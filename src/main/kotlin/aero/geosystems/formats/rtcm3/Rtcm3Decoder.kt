@@ -12,7 +12,6 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.logging.Level
 import java.util.logging.LogManager
-import java.util.logging.Logger
 
 /**
  * Created by aimozg on 30.01.2017.
@@ -33,6 +32,7 @@ class Rtcm3Decoder(var refGpsTime: Long,
 	}
 
 	override fun checkMinimalHeader(): Boolean {
+		if (logger?.isLoggable(Level.FINEST) == true) logger.log(Level.FINEST, "checkMinimalHeader -> id=${header.message_id} length=${header.message_length}")
 		return header.message_id>1000
 	}
 
@@ -60,7 +60,7 @@ class Rtcm3Decoder(var refGpsTime: Long,
 			else -> null
 		}
 		if (gpstime != null) {
-			if (logger?.isLoggable(Level.FINEST)?:false) logger?.log(Level.FINEST,"$mid | $refGpsTime -> $gpstime")
+			if (logger?.isLoggable(Level.FINEST) == true) logger.log(Level.FINEST, "$mid | $refGpsTime -> $gpstime")
 			refGpsTime = gpstime
 		}
 		/*
@@ -78,7 +78,6 @@ class Rtcm3Decoder(var refGpsTime: Long,
 		}
 		sink.consume(message,messageBuffer,gpstime,type)
 	}
-	companion object {
-		private val logger: Logger? = LogManager.getLogManager().getLogger("aero.geosystems.formats.rtcm3.Rtcm3Decoder")
-	}
+
+	override val logger = LogManager.getLogManager().getLogger("aero.geosystems.formats.rtcm3.Rtcm3Decoder")
 }
