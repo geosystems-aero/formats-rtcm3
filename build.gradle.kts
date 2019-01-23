@@ -13,8 +13,7 @@ buildscript {
 }
 
 plugins {
-    val kotlinVersion = "1.3.11"
-    kotlin("jvm") version kotlinVersion
+    kotlin("jvm")
 }
 
 tasks.withType<KotlinJvmCompile> {
@@ -40,7 +39,7 @@ dependencies {
 tasks.withType<Jar> {
     manifest {
         attributes(mapOf(
-                "Class-Path" to configurations.compile.joinToString(" ") { it.name },
+                "Class-Path" to configurations.compile.get().joinToString(" ") { it.name },
                 "Main-Class" to mainClassName
         ))
     }
@@ -52,7 +51,7 @@ task<Jar>("fatJar") {
     }
     baseName = "Rtcm3App"
     from(
-            configurations.compile.map {
+            configurations.compile.get().map {
                 if (it.isDirectory) it else zipTree(it)
             }
     )
