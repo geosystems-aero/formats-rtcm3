@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 
 buildscript {
-    val kotlinVersion: String by extra("1.3.11")
+    val kotlinVersion: String by extra("1.3.20")
 
     repositories {
         mavenCentral()
@@ -29,9 +29,9 @@ repositories {
 }
 
 dependencies {
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    testCompile("org.jetbrains.kotlin:kotlin-test")
-    testCompile("org.jetbrains.kotlin:kotlin-test-junit")
+    compile(kotlin("stdlib-jdk8"))
+    testCompile(kotlin("test"))
+    testCompile(kotlin("test-junit"))
     compile(project(":formats-core"))
     compile(project(":gnss-core"))
 }
