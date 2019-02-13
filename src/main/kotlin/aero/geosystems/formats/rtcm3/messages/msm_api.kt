@@ -1,9 +1,13 @@
 package aero.geosystems.formats.rtcm3.messages
 
+import aero.geosystems.formatAs
 import aero.geosystems.formats.StructBinding
-import aero.geosystems.formats.rtcm3.*
+import aero.geosystems.formats.rtcm3.Rtcm3Message
+import aero.geosystems.formats.rtcm3.Rtcm3MessageDef
+import aero.geosystems.formats.rtcm3.Rtcm3StructDef
 import aero.geosystems.formats.rtcm3.Rtcm3StructDef.Companion.LIGHTMS
 import aero.geosystems.gnss.SatSystem
+import aero.geosystems.joinFormatted
 import java.nio.ByteBuffer
 import java.util.*
 import kotlin.properties.ReadWriteProperty
@@ -51,8 +55,9 @@ abstract class RtcmMsmCommonDef<ET, BINDING : RtcmMsmCommon<ET, BINDING>>(
 	val gnss_sig_mask_def = DF395()
 	val gnss_cell_mask_def = DF396(gnss_sat_mask_def, gnss_sig_mask_def)
 
-	abstract protected fun gnss_epoch_def_gen(): ReadWriteProperty<StructBinding, ET>
+	protected abstract fun gnss_epoch_def_gen(): ReadWriteProperty<StructBinding, ET>
 	abstract fun getGpstime(epoch_time: ET, ref_gpstime: Long): Long
+	open fun gnssEpochToString(epoch_time:ET):String = epoch_time.toString()
 
 	val psr_rough_cms_def = if (has_cms) DF397array(gnss_sat_mask_def) else null
 	@Suppress("LeakingThis")
@@ -151,7 +156,7 @@ abstract class RtcmMsmCommon<ET, BINDING : RtcmMsmCommon<ET, BINDING>>(
 			val phr_rate_fine: Double?
 	) : IObservation {
 		val fqidx = if (gnss == SatSystem.GLONASS) ext_sat_info?.minus(7) else 0
-		override val wavelength = if (fqidx != null && sigCode?.signal != null) sigCode.signal.wavelength(fqidx) else null
+		override val wavelength = if (fqidx != null) sigCode?.wavelength(fqidx) else null
 		val satGlobalIdx = gnss.indexToId(satCode)
 		val psr_rough_m = ((psr_rough_cms ?: 0) + psr_rough_mod) * LIGHTMS
 		override val psr_m = psr_fine?.times(LIGHTMS)?.plus(psr_rough_m)
@@ -234,8 +239,8 @@ abstract class RtcmMsmCommon<ET, BINDING : RtcmMsmCommon<ET, BINDING>>(
 					fphr_rate_fine[obsi] = phr_rate_ms?.rem(1.0)?.quant(1e-4) ?: 0.0
 				}
 				fphr_lock[obsi] = o.phr_lock?.let { time ->
-					(if (def.has_hd) Rtcm3StructDef.Companion.DF407_INDICATORS
-					else Rtcm3StructDef.Companion.DF402_INDICATORS).lastOrNull {
+					(if (def.has_hd) Rtcm3StructDef.DF407_INDICATORS
+					else Rtcm3StructDef.DF402_INDICATORS).lastOrNull {
 						time >= it.minTime
 					}?.toIndicator(time)
 				} ?: 0
@@ -311,7 +316,7 @@ abstract class RtcmMsmCommon<ET, BINDING : RtcmMsmCommon<ET, BINDING>>(
 		val cellSatSigCodes1 = cellSatSigCodes
 		val def = def
 		//val cellFreqs = cellSatSigCodes1.map { MsmSignalCode.byCode(it.second)?.signal?.frequency }
-		val s0 = "$refstn_id,$gnss_epoch,$multiple_msg_bit,$iods,$reserved,$clock_steering,$ext_clock,$gnss_div_smooth,$gnss_smooth_int"
+		val s0 = "$refstn_id,${def.gnssEpochToString(gnss_epoch)},$multiple_msg_bit,$iods,$reserved,$clock_steering,$ext_clock,$gnss_div_smooth,$gnss_smooth_int"
 		//profile[i++] += System.nanoTime();profile[i] -= System.nanoTime()
 		val gnss = def.gnss
 		val gnssc = gnss.charCode.toString()

@@ -6,12 +6,37 @@ import aero.geosystems.gnss.SatSystem
 import java.nio.ByteBuffer
 import kotlin.properties.ReadWriteProperty
 
+internal fun msOfDayToString(msow:Long):String {
+	var epoch = msow
+	val ms=(epoch%1000).toString().padStart(3,'0')
+	epoch /= 1000
+	val s = (epoch%60).toString().padStart(2,'0')
+	epoch /= 60
+	val m = (epoch%60).toString().padStart(2,'0')
+	val h = epoch / 60
+	return "$h:$m:$s.$ms"
+}
+internal fun msOfWeekToString(msow:Long):String {
+	var epoch = msow
+	val ms=(epoch%1000).toString().padStart(3,'0')
+	epoch /= 1000
+	val s = (epoch%60).toString().padStart(2,'0')
+	epoch /= 60
+	val m = (epoch%60).toString().padStart(2,'0')
+	epoch /= 60
+	val h = (epoch%24).toString().padStart(2,'0')
+	val d = epoch / 24
+	return "${d}d$h:$m:$s.$ms"
+}
+
 abstract class RtcmMsmGpsDef<BINDING : RtcmMsmCommon<Long, BINDING>>(mid_const: Int) :
 		RtcmMsmCommonDef<Long, BINDING>(SatSystem.GPS, mid_const - 1070, mid_const) {
 	override fun gnss_epoch_def_gen(): ReadWriteProperty<StructBinding, Long> = DF004()
 	override fun getGpstime(epoch_time: Long, ref_gpstime: Long): Long {
 		return GnssUtils.addGuessedWeek(ref_gpstime,epoch_time)
 	}
+	override fun gnssEpochToString(epoch_time: Long) =
+			"$epoch_time(${msOfWeekToString(epoch_time)})"
 }
 
 class Rtcm1071(bb: ByteBuffer, offset: Int=0) : RtcmMsmCommon<Long, Rtcm1071>(Companion, bb, offset) {

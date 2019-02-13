@@ -1,8 +1,8 @@
 package aero.geosystems.formats.rtcm3.messages
 
+import aero.geosystems.formatAs
 import aero.geosystems.formats.rtcm3.Rtcm3Message
 import aero.geosystems.formats.rtcm3.Rtcm3MessageDef
-import aero.geosystems.formats.rtcm3.formatAs
 import java.nio.ByteBuffer
 
 /*

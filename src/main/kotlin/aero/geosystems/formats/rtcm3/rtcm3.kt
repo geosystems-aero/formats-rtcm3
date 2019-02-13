@@ -1,9 +1,8 @@
 package aero.geosystems.formats.rtcm3
 
 import aero.geosystems.formats.StructBinding
-import java.math.BigInteger
+import aero.geosystems.toHexString
 import java.nio.ByteBuffer
-import java.util.*
 
 
 const val PREAMBLE_VALUE: Short = 0xD3
@@ -12,32 +11,6 @@ const val PREAMBLE_VALUE: Short = 0xD3
  * Created by aimozg on 27.12.2016.
  * Confidential.
  */
-fun <T> T.formatAs(fmt: String): String = fmt.format(Locale.ENGLISH, this)
-
-fun ByteArray.toHexString(): String = ("%0${size * 2}X".format(BigInteger(1, this)))
-fun <T> Iterable<T>.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...") =
-		joinToString(separator, prefix, postfix, limit, truncated) { format.format(Locale.ENGLISH, it) }
-
-inline fun <T> Iterable<T>.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...", transform: ((T) -> Any?)) =
-		map { transform(it).formatAs(format) }.joinToString(separator, prefix, postfix, limit, truncated)
-
-fun IntArray.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...") =
-		joinToString(separator, prefix, postfix, limit, truncated) { format.format(Locale.ENGLISH, it) }
-
-inline fun IntArray.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...", transform: ((Int) -> Any?)) =
-		map { transform(it).formatAs(format) }.joinToString(separator, prefix, postfix, limit, truncated)
-
-fun DoubleArray.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...") =
-		joinToString(separator, prefix, postfix, limit, truncated) { format.format(Locale.ENGLISH, it) }
-
-inline fun DoubleArray.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...", transform: ((Double) -> Any?)) =
-		map { transform(it).formatAs(format) }.joinToString(separator, prefix, postfix, limit, truncated)
-
-fun BooleanArray.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...") =
-		joinToString(separator, prefix, postfix, limit, truncated) { format.format(Locale.ENGLISH, it) }
-
-inline fun BooleanArray.joinFormatted(format: String = "%s", separator: CharSequence = ", ", prefix: CharSequence = "", postfix: CharSequence = "", limit: Int = -1, truncated: CharSequence = "...", transform: ((Boolean) -> Any?)) =
-		map { transform(it).formatAs(format) }.joinToString(separator, prefix, postfix, limit, truncated)
 
 abstract class Rtcm3MessageDef<BINDING : StructBinding>(val mid_const: Int) : Rtcm3StructDef<BINDING>() {
 	val preamble_def = UIntMember(8)

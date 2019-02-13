@@ -9,7 +9,7 @@ import kotlin.reflect.KProperty
 
 class GloMsmEpoch(val dow: Int, val epochTime: Long) {
 	override fun toString(): String {
-		return "${dow}d${epochTime}ms"
+		return "${dow}d${epochTime}ms(${msOfDayToString(epochTime)})"
 	}
 }
 
