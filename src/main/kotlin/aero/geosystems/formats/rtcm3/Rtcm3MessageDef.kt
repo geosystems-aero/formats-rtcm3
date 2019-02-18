@@ -540,7 +540,204 @@ abstract class Rtcm3StructDef<BINDING : StructBinding> : StructDef<BINDING>() {
 	 */
 	fun DF142() = BitMember()
 
-	// TODO DF143-DF226
+	/**
+	 * Source-Name Counter, uint5
+	 */
+	fun DF143() = UIntMember(5)
+
+	/**
+	 * Source-Name, char8(N)
+	 */
+	fun DF144(df143: UIntMember) = VarStringMember(df143)
+
+	/**
+	 * Target-Name Counter, uint5
+	 */
+	fun DF145() = UIntMember(5)
+
+	/**
+	 * Target-Name, char8(N)
+	 */
+	fun DF146(df145: UIntMember) = VarStringMember(df145)
+
+	/**
+	 * System Identification Number, uint8
+	 */
+	fun DF147() = UIntMember(8)
+
+	/**
+	 * Utilized Transformation Message Indicator, bit(10)
+	 */
+	fun DF148() = BitMaskMember(10)
+
+	/**
+	 * Plate Number, uint5
+	 */
+	fun DF149() = UIntMember(5)
+
+	/**
+	 * Computation Indicator, uint4
+	 */
+	fun DF150() = UIntMember(4)
+
+	/**
+	 * Height Indicator, uint2
+	 */
+	fun DF151() = UIntMember(2)
+
+	/**
+	 * PSI_V, int19 x 2 arcseconds
+	 */
+	fun DF152() = LinearFloatMember(false, 19, 2.0)
+
+	/**
+	 * LAMBDA_V, int20 x 2 arcseconds
+	 */
+	fun DF153() = LinearFloatMember(false, 20, 2.0)
+
+	/**
+	 * DELTA PSI_V, uint14 x 2 arcseconds
+	 */
+	fun DF154() = LinearFloatMember(true, 14, 2.0)
+
+	/**
+	 * DELTA LAMBDA_V, uint14 x 2 arcseconds
+	 */
+	fun DF155() = LinearFloatMember(true, 14, 2.0)
+
+	/**
+	 * dX, int23 x 0.001 m
+	 */
+	fun DF156() = LinearFloatMember(false, 23, 0.001)
+
+	/**
+	 * dY, int23 x 0.001 m
+	 */
+	fun DF157() = LinearFloatMember(false, 23, 0.001)
+
+	/**
+	 * dZ, int23 x 0.001 m
+	 */
+	fun DF158() = LinearFloatMember(false, 23, 0.001)
+
+	/**
+	 * R1, int32 x 0.00002 arc seconds
+	 */
+	fun DF159() = LinearFloatMember(false, 32, 0.00002)
+
+	/**
+	 * R2, int32 x 0.00002 arc seconds
+	 */
+	fun DF160() = LinearFloatMember(false, 32, 0.00002)
+
+	/**
+	 * R3, int32 x 0.00002 arc seconds
+	 */
+	fun DF161() = LinearFloatMember(false, 32, 0.00002)
+
+	/**
+	 * dS, int25 x 0.00001 ppm
+	 */
+	fun DF162() = LinearFloatMember(false, 25, 0.00001)
+
+	/**
+	 * X_P, int35 x 0.001 m
+	 */
+	fun DF163() = LinearFloatMember(false, 35, 0.001)
+
+	/**
+	 * Y_P, int35 x 0.001 m
+	 */
+	fun DF164() = LinearFloatMember(false, 35, 0.001)
+
+	/**
+	 * Z_P, int35 x 0.001 m
+	 */
+	fun DF165() = LinearFloatMember(false, 35, 0.001)
+
+	/**
+	 * add_as, uint24 x 0.001 m
+	 */
+	fun DF166() = LinearFloatMember(true, 24, 0.001)
+
+	/**
+	 * add_bs, uint25 x 0.001 m
+	 */
+	fun DF167() = LinearFloatMember(true, 25, 0.001)
+
+	/**
+	 * add_at, uint24 x 0.001 m
+	 */
+	fun DF168() = LinearFloatMember(true, 24, 0.001)
+
+	/**
+	 * add_bt, uint25 x 0.001 m
+	 */
+	fun DF169() = LinearFloatMember(true, 25, 0.001)
+
+	/**
+	 * Projection Type, uint6
+	 */
+	fun DF170() = UIntMember(6)
+
+	/**
+	 * LaNO, int34 x 0.000000011 degrees
+	 */
+	fun DF171() = LinearFloatMember(false, 34, 0.000000011)
+
+	/**
+	 * LoNO, int35 x 0.000000011 degrees
+	 */
+	fun DF172() = LinearFloatMember(false, 35, 0.000000011)
+
+	/**
+	 * add SNO, uint30 x 0.00001 ppm - 7000 ppm (add to 1,000,000 ppm)
+	 */
+	fun DF173() = LinearFloatMember(true, 30, 0.00001, -7000.0)
+
+	/**
+	 * FE, uint36 x 0.001 m
+	 */
+	fun DF174() = LinearFloatMember(true, 36, 0.001)
+
+	/**
+	 * FN, int35 x 0.001 m
+	 */
+	fun DF175() = LinearFloatMember(false, 35, 0.001)
+
+	/**
+	 * LaFO, int34 x 0.000000011 degrees
+	 */
+	fun DF176() = LinearFloatMember(false, 34, 0.000000011)
+
+	/**
+	 * LoFO, int35 x 0.000000011 degrees
+	 */
+	fun DF177() = LinearFloatMember(false, 35, 0.000000011)
+
+	/**
+	 * LaSP1, int34 x 0.000000011 degrees
+	 */
+	fun DF178() = LinearFloatMember(false, 34, 0.000000011)
+
+	/**
+	 * LaSP2, int34 x 0.000000011 degrees
+	 */
+	fun DF179() = LinearFloatMember(false, 34, 0.000000011)
+
+	// TODO DF180-DF213
+
+	/**
+	 * Hotizontal Helmert/Molodenski Quality Indicator
+	 */
+	fun DF214() = UIntMember(3)
+
+	/**
+	 * Vertical Helmert/Molodenski Quality Indicator
+	 */
+	fun DF215() = UIntMember(3)
+
+	// TODO DF216-DF226
 
 	/**
 	 * Receiver Type Descriptor Counter, uint8

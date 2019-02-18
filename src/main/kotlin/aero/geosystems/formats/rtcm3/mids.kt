@@ -28,6 +28,11 @@ val Rtcm3MessageIDs: Map<Int, Rtcm3MessageDef<out Rtcm3Message>> = mapOf(
 
 		1019 to Rtcm1019.Companion,
 
+		1021 to Rtcm1021.Companion,
+		1022 to Rtcm1022.Companion,
+
+		1025 to Rtcm1025.Companion,
+
 		1033 to Rtcm1033.Companion,
 
 		1071 to Rtcm1071.Companion,
